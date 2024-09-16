@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Generation Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #cfc8c8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align items in the body */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #4683c5;
+        }
+
+        h2 {
+            color: #7f6363;
+        }
+
+        #generated-notes {
+            margin-bottom: 20px;
+        }
+
+        #download-section {
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #1ad996;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #aada1b;
+        }
+
+        #midi-player {
+            text-align: center; /* Center the MIDI player */
+            margin-top: 30px;
+            width: 100%; /* Full width for the player section */
+        }
+
+        midi-player {
+            display: block;
+            margin: 0 auto; /* Center the MIDI player */
+            max-width: 800px; /* Set a max width for the player */
+            border: 1px solid #4683c5; /* Optional: add border for visibility */
+            padding: 20px; /* Add padding for aesthetics */
+            border-radius: 10px; /* Rounded corners */
+            background-color: rgba(255, 255, 255, 0.1); /* Light background */
+        }
+
+        midi-visualizer {
+            display: block;
+            margin: 20px auto; /* Center the visualizer */
+            max-width: 800px; /* Set a max width for the visualizer */
+        }
+
+        /* Attempt to change keystrokes to white */
+        midi-visualizer .note {
+            background-color: white !important; /* Force keystrokes to white */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+</head>
+<body>
+    <header>
+        <h1>Music Generation Project</h1>
+    </header>
+    
+    <main>
+        <section id="generated-notes">
+            <h2>Generated Music Notes:</h2>
+            <ul id="notes-list"></ul>
+        </section>
+
+        <section id="actions">
+            <h2>Actions:</h2>
+            <button id="generate-button">Generate Music</button>
+            <a id="download-link" href="/download" download>Download MIDI File</a>
+        </section>
+
+        <section id="midi-player">
+            <h2>Play Generated Music:</h2>
+            <midi-player
+              src="/static/generated_music.mid"
+              sound-font visualizer="#myPianoRollVisualizer">
+            </midi-player>
+            <midi-visualizer type="piano-roll" id="myPianoRollVisualizer" 
+              src="/static/generated_music.mid">
+            </midi-visualizer>
+            <midi-player
+              src="/static/generated_music.mid"
+              sound-font visualizer="#myStaffVisualizer">
+            </midi-player>
+            <midi-visualizer type="staff" id="myStaffVisualizer" 
+              src="/static/generated_music.mid">
+            </midi-visualizer>
+        </section>
+    </main>
+
+    <script>
+        // Function to display generated notes in the HTML
+        function displayNotes(notes) {
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = ''; // Clear the list before adding new notes
+            notes.forEach(note => {
+                const listItem = document.createElement('li');
+                listItem.textContent = note;
+                notesList.appendChild(listItem);
+            });
+        }
+
+        // Call the display function when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initially empty
+            displayNotes([]);
+        });
+
+        document.getElementById('generate-button').addEventListener('click', function() {
+            fetch('/generate_music', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json(); // Parse the JSON response
+                    } else {
+                        throw new Error('Error generating music!');
+                    }
+                })
+                .then(generatedNotes => {
+                    alert('Music generated successfully!');
+                    displayNotes(generatedNotes); // Display the dynamically generated notes
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        });
+    </script>
+</body>
+</html>
