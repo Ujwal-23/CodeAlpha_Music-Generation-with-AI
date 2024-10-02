@@ -1,6 +1,6 @@
 # Music Generation with AI
 
-Welcome to the CodeAlpha repository! This project demonstrates the use of deep learning techniques for generating music using Artificial Intelligence. The goal is to explore AI-powered music generation through Recurrent Neural Networks (RNNs) or Generative Adversarial Networks (GANs).
+Welcome to the my repository! This project demonstrates the use of deep learning techniques for generating music using Artificial Intelligence. The goal is to explore AI-powered music generation through Recurrent Neural Networks (RNNs) or Generative Adversarial Networks (GANs).
 
 ## Table of Contents
 
