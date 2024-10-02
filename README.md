@@ -40,30 +40,30 @@ Copy code
    git clone https://github.com/Ujwal-23/CodeAlpha_Music-Generation-with-AI.git
 Navigate to the project directory:
 
-bash
-Copy code
-cd CodeAlpha_Music-Generation-with-AI
+   ```bash
+   cd CodeAlpha_Music-Generation-with-AI
+```
 Install the required dependencies:
 
-bash
-Copy code
+```bash
 pip install -r requirements.txt
+```
 Usage
 Preprocess your music data using the preprocess.py script.
 
-bash
-Copy code
+```bash
 python preprocess.py
+```
 Train the AI model using the train_model.py script.
 
-bash
-Copy code
+```bash
 python train_model.py
+```
 Generate music using the generate_music.py script.
 
-bash
-Copy code
+```bash
 python generate_music.py
+```
 How It Works
 This project utilizes deep learning techniques to generate music. The workflow includes:
 
